@@ -1,0 +1,229 @@
+/* all done final*/
+#drop database ebaytest;
+
+Create database ebaytest;
+
+use ebaytest;
+
+/*============================= Category table============================ */
+
+CREATE TABLE `category` (
+  `category_id` INT NOT NULL AUTO_INCREMENT,
+  `category_name` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`category_id`)
+);
+
+/*============================ sub- category table==========================*/
+
+CREATE TABLE `sub_category` (
+  `sub_category_id` INT NOT NULL AUTO_INCREMENT,
+  `category_id` INT NOT NULL,
+  `sub_category_name` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`sub_category_id`),
+  foreign key(`category_id`) references category(`category_id`) ON DELETE CASCADE
+  );
+
+/*======================== user is buyer and seller both =======================*/
+
+CREATE TABLE `user` (
+  `user_id` INT NOT NULL AUTO_INCREMENT,
+  `user_fname` VARCHAR(100) NOT NULL,
+  `user_lname` VARCHAR(100) NOT NULL,
+  `user_email` VARCHAR(255) NOT NULL,
+  `user_password` VARCHAR(150) NOT NULL,
+  `user_country` VARCHAR(100) default 'India',
+  `
+  ` VARCHAR(255),
+  `user_city` VARCHAR(255),
+  `user_state` VARCHAR(200),
+  `user_pincode` INT default 8888,
+  `user_phone` VARCHAR(50),
+  `user_second_country` VARCHAR(100) default 'India',
+  `user_second_address` VARCHAR(255),
+  `user_second_city` VARCHAR(255),
+  `user_second_state` VARCHAR(200),
+  `user_second_pincode` INT default 8888,
+  `user_second_phone` VARCHAR(50),
+  `user_rating` float default 0,
+  `user_rating_count` float default 0,
+  `total_rating_count` float default 0,
+  `card_number` varchar(16),
+ `wallet_balance` float(255,2) DEFAULT 0,
+  PRIMARY KEY (`user_id`)
+  );
+
+
+
+/*============================= product table-stable========================*/ 
+
+CREATE TABLE `product` (
+`product_id` INT NOT NULL AUTO_INCREMENT,  
+`sub_category_id` INT NOT NULL,
+`category_id` INT NOT NULL,
+`user_id` INT NOT NULL,
+`product_name` VARCHAR(255) NOT NULL,
+`product_price` Float(255,2) NOT NULL,
+`product_discount` INT,
+`product_condition` VARCHAR(100) ,
+`product_shipping` VARCHAR(100) ,
+`product_sold_quantity` INT,
+`product_img_url` VARCHAR(255) ,
+`product_available_quantity` INT,
+`product_description` VARCHAR(432),
+`product_rating`  INT ,
+`item_id` varchar(255),
+`brand` varchar(255),
+`color` varchar(255),
+`screen_size` varchar(255),
+`processor` varchar(255),
+`storage` varchar(255),
+`warranty` varchar(255),
+`operating_system` varchar(255),
+`product_year` INT,
+`gender` varchar(255),
+`applicable` varchar(255),
+`material` varchar(255),
+`clothing_size` varchar(255),
+`style` varchar(255),
+`warranty_type` varchar(255),
+`card_class` varchar(255),
+
+ `a1` varchar(255),
+ `a2` varchar(255),
+ `a3` varchar(255),
+ `a4` varchar(255),
+ `a5` varchar(255),
+ `a6` varchar(255),
+ `a7` varchar(255),
+ `a8` varchar(255),
+ 
+  PRIMARY KEY (`product_id`),
+  foreign key(`category_id`) references category(`category_id`) ON DELETE CASCADE,
+  foreign key(`user_id`) references user(`user_id`) ON DELETE CASCADE,
+  foreign key(`sub_category_id`) references sub_category(`sub_category_id`) ON DELETE CASCADE 
+  );
+
+
+
+
+/*======================= updated key value pair for product==================== */
+
+CREATE TABLE product_key_value(
+product_key_value_id INT NOT NULL AUTO_INCREMENT,
+product_id INT NOT NULL,
+`key` varchar(255),
+`key_value` varchar(255),
+PRIMARY KEY (product_key_value_id),
+foreign key(product_id) references product (product_id) ON DELETE CASCADE
+);
+
+/*============================ bank detail queries==========================*/
+
+create table cardDetails 
+(
+    card_number varchar(16),
+    cvv varchar(3) ,
+    ex_date varchar(7),
+    balance float(255,2) DEFAULT 0,
+    PRIMARY KEY (`card_number`)
+);
+
+
+/* ==============================cart table detail ==========================*/
+
+CREATE TABLE `cart` (
+  `cart_table_id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` VARCHAR(100) NOT NULL,
+  `product_id` INT NOT NULL,
+  `quantity` INT ,
+  `checked` INT ,
+  PRIMARY KEY (`cart_table_id`),
+  UNIQUE INDEX `cart_table_id_UNIQUE` (`cart_table_id` ASC)
+);
+
+/* ===============================Transaction table ========================*/
+
+CREATE TABLE `transaction` (
+  `Txn_surr_id` INT NOT NULL AUTO_INCREMENT,
+  `txn_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
+  `seller_id` INT NOT NULL,
+  `amount` float(255,2) NULL,
+  `product_id` INT NULL,
+  `quantity` INT NULL,
+  `product_status` VARCHAR(45) NULL,
+  `order_date` date NULL,
+  `ship_date` date NULL,
+  `receive_date` date NULL,
+  `product_discount` INT default 0,
+  `product_deal` VARCHAR(45) NULL,
+  `user_address` varchar(255),
+  `seller_address` varchar(255),
+  `seller_rating` float default 0,
+  `product_rating` float default 0,
+  `deal_id` INT,
+  PRIMARY KEY (`Txn_surr_id`),
+  UNIQUE INDEX `Txn_surr_id_UNIQUE` (`Txn_surr_id` ASC),
+
+  foreign key(`seller_id`) references user(`user_id`) ON DELETE CASCADE,
+  foreign key(`user_id`) references user(`user_id`) ON DELETE CASCADE,
+  foreign key(`product_id`) references product(`product_id`) ON DELETE CASCADE
+
+);
+
+/*========================= admin deal table============================== */
+
+CREATE TABLE `admin_deal` (
+  `admin_deal_id` INT NOT NULL AUTO_INCREMENT,
+  `deal_name` VARCHAR(100) NOT NULL,
+  `buy_number` INT NULL,
+  `get_number` INT NULL,
+  `discount` INT default 0,
+  PRIMARY KEY (`admin_deal_id`));
+
+/*============================= seller deal table ===========================*/
+
+CREATE TABLE `seller_deal` (
+  `seller_deal_id` INT NOT NULL AUTO_INCREMENT,
+  `deal_id` INT NOT NULL,
+  `seller_id` INT NOT NULL,
+  `product_id` INT NULL,
+  `deal_name` VARCHAR(100) NULL,
+  `start_date` DATE NULL,
+  `end_date` DATE NULL,
+  `free_check` INT NULL DEFAULT 0,
+  PRIMARY KEY (`seller_deal_id`));
+
+insert into user (user_fname ,user_lname,user_email, user_password) values ('admin','admin','admin@gmail.com','admin');
+
+insert into category (category_name) values ('Data Storage'),('Fashion'),('Beauty Health & Grocery');
+
+insert into sub_category (category_id,sub_category_name) values (1,'Pen Drives'),(1,'Memory Cards'),(1,'Hard Drives');
+
+insert into sub_category (category_id,sub_category_name) values (2,'Clothing & Accessories'),(2,'Watches'),(2,'Shoes');
+
+insert into sub_category (category_id,sub_category_name) values (3,'Personal Care Devices'),(3,'Skin Care'),(3,'Health Care & Instruments');
+
+insert into cardDetails values ('0000000000000000','000','10/2099','100000');
+insert into cardDetails values ('1111111111111111','111','10/2022','100000');
+insert into cardDetails values ('2222222222222222','222','10/2022','100000');
+insert into cardDetails values ('3333333333333333','333','10/2022','100000');
+insert into cardDetails values ('4444444444444444','444','10/2022','100000');
+insert into cardDetails values ('5555555555555555','555','10/2022','100000');
+insert into cardDetails values ('6666666666666666','666','10/2022','100000');
+insert into cardDetails values ('7777777777777777','777','10/2022','100000');
+insert into cardDetails values ('8888888888888888','888','10/2022','100000');
+insert into cardDetails values ('9999999999999999','999','10/2022','100000');
+
+/*insert into user (card_number) values ("2222222222222222") where user_id=2;*/
+
+select * from user;
+
+update user set card_number='2222222222222222' where user_id=2;
+update user set card_number='3333333333333333' where user_id=3;
+update user set card_number='4444444444444444' where user_id=4;
+
+update user set card_number='5555555555555555' where user_id=5;
+
+
+select * from seller_deal;

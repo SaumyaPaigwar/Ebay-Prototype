@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Grid View With Filter</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<script src="jquery-3.3.1/jquery.min.js"></script>
+<script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="col-md-1"></div>
+		<div class="col-md-10">
+			<a href="http://localhost:5224/ebaytester/home.html"><img
+				src="images/ebayin logo.JPG" width="140" height="60" /></a> <br />
+
+			<P2>Name:</P2>
+			<p3>Saumya Paigwar</p3>
+			<br>
+			<p2>Roll No:</p2>
+			<p3> MT2017101</p3>
+			<hr>
+			
+		</div>
+	<div class="col-md-1"></div>
+	</div>
+
+	<br>
+	<div class="container">
+		<div class="col-sm-4"></div>
+		<div class="col-sm-4">
+			<div id="PriceFilter">
+				<p style="font-size:18px;"><strong> Price</strong></p>
+ 				<div class= "row">
+ 					<div class="col-sm-1"><p style="font-size:12px">Rs.</p></div>
+ 					<div class="col-sm-3"><input type="text" style="width:40px" id="price_text1" name="start_price"></div>
+ 					<div class="col-sm-2"><p style="font-size:12px">to Rs.</p></div>
+ 					<div class="col-sm-3"><input type="text" style="width:40px" id="price_text2" name="end_price"></div>
+ 					<div class="col-sm-3">
+ 						<button type="button" class="btn btn-info" onclick="priceFilter(document.getElementById('price_text1').value,document.getElementById('price_text2').value)">
+      						<span class="glyphicon glyphicon-forward"></span>
+    					</button></div>
+ 				</div>
+			</div>
+			</div>
+		<div class="col-sm-4"></div>	
+	
+	</div>
+	<div id="PriceFilter">
+	<div id="c1" class="container">
+	</div>
+	<div id="c2" class="container">
+ </div>
+ </div>
+	<div id="examdiv"></div>
+
+</body>
+<script src="javascript/GridViewWithFilter.js"> </script>
+</html>
